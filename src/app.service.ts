@@ -22,17 +22,32 @@ export class AppService {
     });
   }
 
-  indexEvent(params: {
+  async indexEvent(params: {
     skip?: number;
     take?: number;
 
     where?: Prisma.eventWhereInput;
     orderBy?: Prisma.eventOrderByWithRelationInput;
+    q?: string;
   }): Promise<event[]> {
-    const { skip, take, where, orderBy } = params;
-    const order = orderBy ? orderBy : { occurred_at: Prisma.SortOrder.desc };
+    const { skip, take, where, orderBy, q } = params;
 
-    return this.prisma.event.findMany({
+    const order = orderBy ? orderBy : { occurred_at: Prisma.SortOrder.desc };
+    const search = q
+      ? {
+          OR: [
+            { actor_name: { contains: q } },
+            { action_name: { contains: q } },
+            { target_name: { contains: q } },
+            { group: { contains: q } },
+          ],
+        }
+      : {};
+    if (where) {
+      where.AND = search;
+    }
+
+    return await this.prisma.event.findMany({
       skip,
       take,
       where,
