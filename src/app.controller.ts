@@ -18,11 +18,12 @@ export class AppController {
       take?: string;
       where?: string;
       orderBy?: string;
+      q?: string;
     },
   ) {
     const skip = params.skip ? parseInt(params.skip) : undefined;
     const take = params.take ? parseInt(params.take) : undefined;
-    const where = params.where ? JSON.parse(params.where) : undefined;
+    const where = params.where ? JSON.parse(params.where) : {};
     const orderBy = params.orderBy ? JSON.parse(params.orderBy) : undefined;
 
     const moddedParams = {
@@ -30,6 +31,7 @@ export class AppController {
       where: where,
       skip: skip,
       take: take,
+      q: params.q,
     };
     return await this.appService.indexEvent(moddedParams);
   }
