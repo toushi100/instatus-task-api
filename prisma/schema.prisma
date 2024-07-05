@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model event {
+  id                   Int      @id @default(autoincrement())
+  actor_id             String
+  actor_name           String
+  group                String
+  action_id            String
+  action_name          String
+  target_id            String
+  target_name          String
+  location             String
+  occurred_at          DateTime
+  metadata_redirect    String
+  metadata_description String
+  metadata_request_id  String
+}
