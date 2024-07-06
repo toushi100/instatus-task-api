@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class AppService {
   constructor(private readonly prisma: PrismaService) {}
-  createEvent(createEventData: CreateEventDto): Promise<Event> {
+  async createEvent(createEventData: CreateEventDto): Promise<Event> {
     const data = {
       ...createEventData,
       actor_id: `actor_${uuidv4()}`,
@@ -16,7 +16,7 @@ export class AppService {
       occurred_at: new Date(),
     };
 
-    return this.prisma.event.create({
+    return await this.prisma.event.create({
       data,
     });
   }
