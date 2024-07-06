@@ -7,18 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model event {
-  id                   Int      @id @default(autoincrement())
-  actor_id             String
-  actor_name           String
-  group                String
-  action_id            String
-  action_name          String
-  target_id            String
-  target_name          String
-  location             String
-  occurred_at          DateTime
-  metadata_redirect    String
-  metadata_description String
-  metadata_request_id  String
+model Event {
+  id          Int      @id @default(autoincrement())
+  occurred_at DateTime
+  actor_email String
+  actor_name  String
+  actor_id    String
+  action_name String
+  action_id   String
+  target_id   String
 }
